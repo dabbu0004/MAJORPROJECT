@@ -1,0 +1,132 @@
+body {
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1;
+    padding-bottom: 3rem; /* Space between listings and footer */
+}
+
+.navbar {
+    height: 5rem;
+    background-color: white;
+}
+
+.fa-compass {
+    color: blue;
+    font-size: 2rem;
+}
+
+.nav-link {
+    color: black !important; 
+}
+
+.f-info-links a {
+    text-decoration: none;
+    color: black;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+.f-info-social, .f-info-links, .f-info-brand {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.f-info-social i {
+    margin-top: 0.5rem;
+    font-size: 1.4rem;
+    margin-right: 1rem;
+}
+
+.f-info {    
+    text-align: center;
+    height: 6em;
+    margin-top: 3rem; /* Space above the footer */
+    background-color: #ebebeb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center; /* Updated from space-evenly to center */
+}
+
+/* Ensure the parent container of listing cards uses flex properties */
+.listings-container {
+    display: flex;
+    flex-wrap: wrap;  /* Allows items to wrap onto new lines */
+    justify-content: space-between; /* Ensures space between cards */
+    gap: 1.5rem; /* Adds consistent space between items */
+}
+
+.listing-card {
+    border: none !important;
+    flex: 1 1 calc(30% - 1rem); /* Adjust to fit approximately three cards per row */
+    box-sizing: border-box; /* Ensures padding and border are included in the total width */
+}
+
+.card-img-top {
+    border-radius: 0.5rem !important;
+    width: 100%;
+    object-fit: cover !important;
+}
+
+.card-body {
+    padding: 0.5rem !important;
+    margin-left: 5px !important;  
+}   
+
+.card-text p {
+    font-weight: 400;
+}
+
+.card-link {
+    text-decoration: none;
+}
+
+.card-img-overlay {
+    opacity: 0;
+}
+
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color: white;
+}
+
+.add-btn {
+    background-color: blue !important;
+    border: none !important;
+}
+
+.edit-btn {
+    background-color: blue !important;
+    border: none !important;
+}
+
+.show-image {
+    height: 30vh;
+}
+
+.list {
+    offset: 0;  
+}
+
+.btns {
+    display: flex;
+}
+
+.edit-btn-show {
+    background-color: blue !important; 
+    border: none !important;
+}
+
+.del-btn {
+    background-color: red !important;
+    border: none !important;
+}
