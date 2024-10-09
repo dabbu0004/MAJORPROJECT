@@ -1,7 +1,9 @@
-if(process.env.NODE_ENV !="production"){
+if (process.env.NODE_ENV !== "production") {
     require("dotenv").config();
+    console.log("SECRET:", process.env.SECRET); // Add this to app.js temporarily to check
 
 }
+
 
 const express = require("express");
 const app = express();
@@ -10,7 +12,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExprexError.js");
-// const MONGO_URL = "mongodb://127.0.0.1:27017/WONDERFULL";
+
 const dbUrl = process.env.ATLASDB_URL;
 
 const listingRouter = require("./routes/listing.js");
@@ -52,7 +54,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 const store=MongoStore.create({
     mongoUrl:dbUrl,
     crypto:{
-        secret:"mysupersecretcode",
+        secret:process.env.SECRET,
 
     },
     touchAfter:24*3600,
@@ -63,7 +65,7 @@ const store=MongoStore.create({
  });
 const sessionOptions = {
     store,
-    secret: "mysupersecret",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false, // Prevents creating sessions for unauthenticated users
     cookie: {
@@ -140,6 +142,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).send(message);
 });
 
-app.listen(3000, () => {
-    console.log("Serving on port 3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
