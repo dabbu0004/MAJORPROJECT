@@ -86,8 +86,8 @@ app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
 // Add a default root route
-app.get("/", (req, res) => {
-    res.send("/listings");
+app.get("/listings", (req, res) => {
+    res.send(listingRouter);
 });
 
 // Handle 404 errors
