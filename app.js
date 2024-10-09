@@ -1,9 +1,6 @@
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config();
-    console.log("SECRET:", process.env.SECRET); // Add this to app.js temporarily to check
-
 }
-
 
 const express = require("express");
 const app = express();
@@ -25,23 +22,17 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
-
 main()
-.then(()=>{
-    console.log("connect to db")
-})
-.catch((err) => {
-    console.log(err);
-});
+    .then(() => {
+        console.log("connect to db");
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 
 async function main() {
     await mongoose.connect(dbUrl);
-   
 }
-
-main().catch(err => {
-    console.log(err);
-});
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -51,23 +42,23 @@ app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
-const store=MongoStore.create({
-    mongoUrl:dbUrl,
-    crypto:{
-        secret:process.env.SECRET,
-
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    crypto: {
+        secret: process.env.SECRET,
     },
-    touchAfter:24*3600,
- });
+    touchAfter: 24 * 3600,
+});
 
- store.on("error",()=>{
-    console.log("Error in  Mongo session  Store",error);
- });
+store.on("error", () => {
+    console.log("Error in Mongo session Store", error);
+});
+
 const sessionOptions = {
     store,
     secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: false, // Prevents creating sessions for unauthenticated users
+    saveUninitialized: false,
     cookie: {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -75,61 +66,29 @@ const sessionOptions = {
     },
 };
 
-// Basic root route
-// app.get("/", (req, res) => {
-//     res.send("Welcome to the Listings app,i m groot!");
-// });
-
-app.use(session(sessionOptions)); // Session middleware
-app.use(flash());                 // Flash middleware
+app.use(session(sessionOptions));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
-
-// Make flash messages available globally
 app.use((req, res, next) => {
-    res.locals.success = req.flash('success'); // Assign the flash message to a local variable
-    // console.log(res.locals.success);
+    res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     res.locals.currUser = req.user;
     next();
 });
-// app.get("/demouser",async(req,res)=>{
-//     let fakeUser = new User({
-//         email:"student@gmail.com",
-//         username:"sigma-student",
-//     });
-//     let registerdUser= await User.register(fakeUser,"helloworld");
-//     res.send(registerdUser);
-// })
-// Demo user registration route
-// app.get("/demouser", async (req, res) => {
-//     try {
-//         const existingUser = await User.findOne({ username: "sigma-student" });
-//         if (existingUser) {
-//             return res.send("User already registered: " + existingUser);
-//         }
-
-//         let fakeUser = new User({
-//             email: "student@gmail.com",
-//             username: "sigma-student",
-//         });
-
-//         let registeredUser = await User.register(fakeUser, "helloworld");
-//         res.send(registeredUser);
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).send("Internal Server Error");
-//     }
-// });
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
-app.use("/",userRouter);
+app.use("/", userRouter);
+
+// Add a default root route
+app.get("/", (req, res) => {
+    res.send("Welcome to the Listings app!");
+});
 
 // Handle 404 errors
 app.all("*", (req, res, next) => {
@@ -142,7 +101,8 @@ app.use((err, req, res, next) => {
     res.status(statusCode).send(message);
 });
 
+// Use the correct port for Render
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
