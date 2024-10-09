@@ -81,14 +81,22 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get("/listings", async (req, res) => {
+    try {
+        const listings = await yourListingsModel.find({}); // Fetch listings from the database
+        res.render("listings", { listings });  // Render the listings view
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
 // Add a default root route
-app.get("/listings", (req, res) => {
-    res.send(listingRouter);
-});
+
 
 // Handle 404 errors
 app.all("*", (req, res, next) => {
@@ -102,7 +110,7 @@ app.use((err, req, res, next) => {
 });
 
 // Use the correct port for Render
-const PORT =  3000;
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
 });
