@@ -129,6 +129,22 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/",userRouter);
 
+app.get("/listings", async (req, res) => {
+    try {
+        const listings = await Listing.find({}); // Adjust Listing to your model
+        res.render("listings", { listings });  // Render your listings view with data
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+app.get("/", (req, res) => {
+    res.render("index.ejs"); // Make sure you have a home.ejs view
+});
+
+
+
 // Handle 404 errors
 app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page not found!"));
@@ -140,6 +156,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).send(message);
 });
 
-app.listen(3000, () => {
-    console.log("Serving on port 3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
 });
