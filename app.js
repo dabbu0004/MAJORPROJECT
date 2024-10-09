@@ -87,7 +87,7 @@ app.use("/", userRouter);
 
 // Add a default root route
 app.get("/", (req, res) => {
-    res.send("index");
+    res.send("/listings");
 });
 
 // Handle 404 errors
