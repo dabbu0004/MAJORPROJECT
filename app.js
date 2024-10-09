@@ -139,9 +139,6 @@ app.get("/listings", async (req, res) => {
     }
 });
 
-app.get("/", (req, res) => {
-    res.render("index.ejs"); // Make sure you have a home.ejs view
-});
 
 
 
