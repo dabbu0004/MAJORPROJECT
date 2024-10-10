@@ -100,6 +100,8 @@ app.use((err, req, res, next) => {
   res.status(statusCode).send(message);
 });
 
-app.listen(3000, () => {
-  console.log("Serving on port 3000");
+const PORT = process.env.PORT || 3000;  // Fall back to 3000 if PORT isn't set
+app.listen(PORT, () => {
+  console.log(`Serving on port ${PORT}`);
 });
+
