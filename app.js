@@ -88,7 +88,16 @@ app.use((req, res, next) => {
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
+app.use(express.static('public'));
+app.get('/', (req, res) => {
+    res.send('Welcome to the home page!');
+  });
+  
 
+app.use((req, res) => {
+    res.status(404).send('Page not found!');
+  });
+  
 // Handle 404 errors
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page not found!"));
