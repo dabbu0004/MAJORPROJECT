@@ -89,9 +89,7 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 app.use(express.static('public'));
-app.get('/', (req, res) => {
-    res.send('Welcome to the home page!');
-  });
+
   
 
 app.use((req, res) => {
