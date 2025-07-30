@@ -130,3 +130,7 @@ body {
     background-color: red !important;
     border: none !important;
 }
+#map{
+    height:600px;
+    width: 700px;
+}

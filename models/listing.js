@@ -18,6 +18,17 @@ const ListingSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    geometry:{
+        type:{
+            type:String,
+            enum:["Point"],
+            required: true
+        },
+        coordinates:{
+            type:[Number],
+            required : true
+        }
+    },
     reviews: [{
         type: Schema.Types.ObjectId,
         ref: 'Review'  // Assuming the reviews are linked to the Listing
